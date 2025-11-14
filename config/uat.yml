@@ -10,6 +10,9 @@ server:
 # cron run
 cron:
   isDisabled: true
-  reportDaily:
+  dataSync:
+    cron: "5 0 * * *"
     isDisabled: true
-    cron: "30 16 * * 5"
+  processRetry:
+    cron: "0 17 * * *"
+    isDisabled: true

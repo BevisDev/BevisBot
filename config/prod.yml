@@ -1,0 +1,18 @@
+server:
+  name: BevisBot
+  profile: prod
+  trustedProxies:
+    - 127.0.0.1
+  port: :8011
+  masterKey:
+  version: 1.0.0
+
+# cron run
+cron:
+  isDisabled: true
+  dataSync:
+    cron: "5 0 * * *"
+    isDisabled: true
+  processRetry:
+    cron: "0 17 * * *"
+    isDisabled: true

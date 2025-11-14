@@ -2,10 +2,10 @@
 APP_NAME = bevis
 
 # dir and main
-RESOURCES_DIR = ./src/resources
+DOC_DIR = ./docs
 MAIN_DIR = ./cmd/server
 INFRAS_DIR = $(MAIN_DIR)/infrastructure
-DI_DIR = $(MAIN_DIR)/infrastructure/di
+DI_DIR = ./internal/di
 MAIN_FILE = $(MAIN_DIR)/main.go
 
 # default build if not args in make
@@ -18,7 +18,7 @@ swag_install:
 
 swag_gen:
 	@echo "Generating swag.."
-	@swag init --generalInfo $(MAIN_FILE) --output $(RESOURCES_DIR)/swagger
+	@swag init --generalInfo $(MAIN_FILE) --output $(DOC_DIR)/swagger
 
 # Install DI
 di_install:

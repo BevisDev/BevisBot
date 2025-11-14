@@ -2,12 +2,15 @@ package middleware
 
 import (
 	"bytes"
-	"fmt"
-	"github.com/BevisDev/godev/consts"
-	"github.com/BevisDev/godev/utils"
-	"github.com/gin-gonic/gin"
 	"io"
 	"time"
+
+	"github.com/BevisDev/BevisBot/pkg/lib"
+	"github.com/BevisDev/godev/consts"
+	"github.com/BevisDev/godev/logger"
+	"github.com/BevisDev/godev/utils"
+	"github.com/BevisDev/godev/utils/random"
+	"github.com/gin-gonic/gin"
 )
 
 type ResponseWrapper struct {
@@ -24,9 +27,13 @@ func (w *ResponseWrapper) Write(b []byte) (int, error) {
 
 func loggerHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// gen state in context
+		var state = random.RandUUID()
+		ctx := utils.SetValueCtx(c.Request.Context(), consts.State, state)
+		c.Request = c.Request.WithContext(ctx)
+
 		var (
 			startTime   = time.Now()
-			state       = utils.GetState(c.Request.Context())
 			contentType = c.Request.Header.Get(consts.ContentType)
 		)
 
@@ -41,16 +48,14 @@ func loggerHandler() gin.HandlerFunc {
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(reqBytes))
 		}
 
-		fmt.Println(state, reqBody)
-		
-		//lib.Logger.LogRequest(&logger.RequestLogger{
-		//	State:       state,
-		//	URL:         c.Request.URL.String(),
-		//	RequestTime: startTime,
-		//	Query:       c.Request.URL.RawQuery,
-		//	Method:      c.Request.Method,
-		//	Body:        reqBody,
-		//})
+		lib.Logger.LogRequest(&logger.RequestLogger{
+			State:       state,
+			URL:         c.Request.URL.String(),
+			RequestTime: startTime,
+			Query:       c.Request.URL.RawQuery,
+			Method:      c.Request.Method,
+			Body:        reqBody,
+		})
 
 		// wrap the responseWriter to capture the response body
 		respBuffer := &bytes.Buffer{}
@@ -74,13 +79,11 @@ func loggerHandler() gin.HandlerFunc {
 			respBody = writer.body.String()
 		}
 
-		fmt.Println(duration, respBody)
-
-		//lib.Logger.LogResponse(&logger.ResponseLogger{
-		//	State:       state,
-		//	Status:      c.Writer.Status(),
-		//	DurationSec: duration,
-		//	Body:        respBody,
-		//})
+		lib.Logger.LogResponse(&logger.ResponseLogger{
+			State:       state,
+			Status:      c.Writer.Status(),
+			DurationSec: duration,
+			Body:        respBody,
+		})
 	}
 }

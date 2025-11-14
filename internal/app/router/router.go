@@ -1,10 +1,11 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/BevisDev/BevisBot/internal/app/dto/response"
 	"github.com/BevisDev/BevisBot/internal/app/enums"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 const API = "/api"
