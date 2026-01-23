@@ -1,7 +1,7 @@
 package notification
 
 import (
-	"github.com/BevisDev/BevisBot/internal/app/dto/request"
+	"github.com/BevisDev/BevisBot/internal/app/models/request"
 	"github.com/gin-gonic/gin"
 )
 

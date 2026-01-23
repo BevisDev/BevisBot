@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/BevisDev/BevisBot/internal/app/config"
+	"github.com/BevisDev/BevisBot/internal/config"
 	"github.com/gin-gonic/gin"
 )
 

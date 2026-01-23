@@ -2,11 +2,11 @@ package middleware
 
 import "github.com/gin-gonic/gin"
 
-func RegisterMiddleware(r gin.IRoutes) {
+func Register(r gin.IRoutes) {
 	r.Use(
-		loggerHandler(),
-		authHandler(),
-		//serverTimeoutHandler(),
-		errorHandler(),
+	//loggerHandler(),
+	//authHandler(),
+	//serverTimeoutHandler(),
+	//errorHandler(),
 	)
 }

@@ -1,11 +1,11 @@
 package config
 
-type AppConfiguration struct {
+type appConfig struct {
 	// Server
 	Server Server `mapstructure:"server"`
 
-	// Cron run
-	Cron Cron `mapstructure:"cron"`
+	// Logger
+	Logger Logger `mapstructure:"logger"`
 }
 
 type Server struct {
@@ -17,12 +17,11 @@ type Server struct {
 	Version        string   `mapstructure:"version"`
 }
 
-type Cron struct {
-	IsDisabled bool `mapstructure:"IsDisabled"`
-
-	// ReportDaily cron
-	ReportDaily struct {
-		IsDisable bool   `mapstructure:"IsDisabled"`
-		Cron      string `mapstructure:"cron"`
-	} `mapstructure:"reportDaily"`
+type Logger struct {
+	IsRotate   bool   `mapstructure:"isRotate"`
+	DirName    string `mapstructure:"dirName"`
+	FileName   string `mapstructure:"fileName"`
+	MaxSize    int    `mapstructure:"maxSize"`
+	MaxBackups int    `mapstructure:"maxBackups"`
+	MaxAge     int    `mapstructure:"maxAge"`
 }

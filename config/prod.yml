@@ -1,18 +1,19 @@
+# SERVER
 server:
   name: BevisBot
   profile: prod
   trustedProxies:
     - 127.0.0.1
-  port: :8011
+  port: 8080
   masterKey:
   version: 1.0.0
 
-# cron run
-cron:
-  isDisabled: true
-  dataSync:
-    cron: "5 0 * * *"
-    isDisabled: true
-  processRetry:
-    cron: "0 17 * * *"
-    isDisabled: true
+# LOGGER
+logger:
+  isRotate: false
+  dirName: ./logs
+  fileName: app.log
+  maxSize: 5
+  maxBackup: 30
+  maxAge: 30
+  compress: true
