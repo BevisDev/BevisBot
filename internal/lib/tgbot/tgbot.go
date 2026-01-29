@@ -22,3 +22,11 @@ func New(token string) (*TgBot, error) {
 	log.Printf("bot started successfully")
 	return b, nil
 }
+
+func (t *TgBot) Send(chatID int64, text string) {
+	msg := tgbotapi.NewMessage(chatID, text)
+
+	if _, err := t.bot.Send(msg); err != nil {
+		log.Println("send error:", err)
+	}
+}
