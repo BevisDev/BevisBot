@@ -1,9 +1,10 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/BevisDev/BevisBot/internal/controller"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 var APIPrefix = "/api"
@@ -15,9 +16,13 @@ func Register(r *gin.Engine) {
 		})
 	})
 
+	helloController := controller.NewHelloController()
+	c := controller.NewWebhookController(
+		helloController,
+	)
+
 	api := r.Group(APIPrefix)
 	{
-		c := controller.NewWebhookController()
 		api.POST("/webhook", c.Webhook)
 	}
 }

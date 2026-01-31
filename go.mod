@@ -3,7 +3,7 @@ module github.com/BevisDev/BevisBot
 go 1.25.5
 
 require (
-	github.com/BevisDev/godev v1.9.14
+	github.com/BevisDev/godev v1.9.15
 	github.com/gin-gonic/gin v1.11.0
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 )
@@ -26,7 +26,7 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jmoiron/sqlx v1.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
