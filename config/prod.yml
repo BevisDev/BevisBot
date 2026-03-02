@@ -4,11 +4,26 @@ server:
   profile: prod
   version: 0.0.1
 
-# LOGGER
+# Logger
 logger:
   dirName: ./logs
   fileName: app.log
 
+# Database
+database:
+  host:
+  port:
+  username:
+  password:
+  db: 
+  maxOpenConns: 25
+  maxIdleConns: 10
+
 # TgBot
 tgBot:
+  chatID:
   token:
+
+# OpenAI
+openai:
+  apiKey:

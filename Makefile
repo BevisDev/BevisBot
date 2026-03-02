@@ -4,7 +4,6 @@ APP_NAME = bevis
 # dir and main
 DOC_DIR = ./docs
 MAIN_DIR = ./cmd/server
-INFRAS_DIR = $(MAIN_DIR)/infrastructure
 DI_DIR = ./internal/di
 MAIN_FILE = $(MAIN_DIR)/main.go
 

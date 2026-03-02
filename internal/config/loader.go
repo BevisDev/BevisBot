@@ -2,15 +2,28 @@ package config
 
 import (
 	"errors"
+	"os"
+
 	"github.com/BevisDev/godev/config"
 	"github.com/BevisDev/godev/consts"
-	"os"
 )
 
-var AppConfig appConfig
+type Config struct {
+	appConfig *appConfig
+}
 
-func Load() error {
-	profile := os.Getenv("PROFILE")
+func New() (*Config, error) {
+	appConfig, err := load()
+	if err != nil {
+		return nil, err
+	}
+	return &Config{
+		appConfig: appConfig,
+	}, nil
+}
+
+func load() (*appConfig, error) {
+	profile := os.Getenv("GO_PROFILE")
 	if profile == "" {
 		profile = "dev"
 	}
@@ -19,7 +32,7 @@ func Load() error {
 	if path == "" {
 		path = "./config"
 	}
-	
+
 	autoEnv := false
 	if profile != "dev" {
 		autoEnv = true
@@ -32,15 +45,18 @@ func Load() error {
 		Profile: profile,
 	}
 
-	resp, err := config.Load[appConfig](cf)
+	resp, err := config.Load[*appConfig](cf)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if resp.Data == nil {
-		return errors.New("no data")
+		return nil, errors.New("no data")
 	}
 
-	AppConfig = *resp.Data
-	return nil
+	return resp.Data, nil
+}
+
+func (c *Config) AppConfig() appConfig {
+	return *c.appConfig
 }

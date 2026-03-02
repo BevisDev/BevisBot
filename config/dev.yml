@@ -4,11 +4,26 @@ server:
   profile: dev
   version: 0.0.1
 
-# LOGGER
+# Logger
 logger:
   dirName: ./logs
   fileName: app.log
 
+# Database
+database:
+  host:
+  port: 5432
+  username: postgres
+  password: postgres
+  db: bevis
+  maxOpenConns: 25
+  maxIdleConns: 10
+
 # TgBot
 tgBot:
-  token: 
+  chatID:
+  token:
+
+# OpenAI
+openai:
+  apiKey: 
