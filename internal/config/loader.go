@@ -8,18 +8,22 @@ import (
 	"github.com/BevisDev/godev/consts"
 )
 
+var instance *Config
+
 type Config struct {
 	appConfig *appConfig
 }
 
 func New() (*Config, error) {
-	appConfig, err := load()
+	cfg, err := load()
 	if err != nil {
 		return nil, err
 	}
-	return &Config{
-		appConfig: appConfig,
-	}, nil
+
+	instance = &Config{
+		appConfig: cfg,
+	}
+	return instance, nil
 }
 
 func load() (*appConfig, error) {
@@ -55,6 +59,10 @@ func load() (*appConfig, error) {
 	}
 
 	return resp.Data, nil
+}
+
+func OpenAIProvider(cfg *Config) OpenAI {
+	return cfg.appConfig.OpenAI
 }
 
 func (c *Config) AppConfig() appConfig {

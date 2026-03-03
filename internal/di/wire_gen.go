@@ -22,12 +22,18 @@ func InitializeApp() (*internal.App, error) {
 	if err != nil {
 		return nil, err
 	}
-	webhookController := controller.NewWebhookController()
+	openAI := config.OpenAIProvider(configConfig)
+	openAIService, err := service.NewOpenAIService(openAI)
+	if err != nil {
+		return nil, err
+	}
+	botService := service.NewBotService(openAIService)
+	webhookController := controller.NewWebhookController(botService)
 	taskRepository := repository.NewTaskRepository()
 	taskService := service.NewTaskService(taskRepository)
 	taskController := controller.NewTaskController(taskService)
 	routerRouter := router.New(webhookController, taskController)
-	app, err := internal.New(configConfig, routerRouter)
+	app, err := internal.New(configConfig, routerRouter, botService)
 	if err != nil {
 		return nil, err
 	}

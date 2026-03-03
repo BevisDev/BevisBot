@@ -7,4 +7,6 @@ import (
 
 var serviceSet = wire.NewSet(
 	service.NewTaskService,
+	service.NewBotService,
+	service.NewOpenAIService,
 )

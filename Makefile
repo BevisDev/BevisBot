@@ -31,7 +31,7 @@ di_gen:
 # Build the application
 build:
 	@echo "Building the application..."
-	@go build -v -o $(APP_NAME) $(MAIN_FILE)
+	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $(APP_NAME) $(MAIN_FILE)
 
 # run the application
 run:

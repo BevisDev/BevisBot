@@ -2,39 +2,41 @@ package internal
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
-	bot2 "github.com/BevisDev/BevisBot/internal/bot"
 	"github.com/BevisDev/BevisBot/internal/config"
 	"github.com/BevisDev/BevisBot/internal/lib"
-	"github.com/BevisDev/BevisBot/internal/lib/tgbot"
 	"github.com/BevisDev/BevisBot/internal/router"
+	"github.com/BevisDev/BevisBot/internal/service"
 	"github.com/BevisDev/godev/framework"
 	"github.com/BevisDev/godev/ginfw/server"
 	"github.com/BevisDev/godev/logger"
 	"github.com/BevisDev/godev/rest"
+	"github.com/BevisDev/godev/tgbot"
 	"github.com/BevisDev/godev/utils"
 	"github.com/gin-gonic/gin"
 )
 
 type App struct {
-	ctx    context.Context
-	cancel context.CancelFunc
-	config *config.Config
-	router *router.Router
+	ctx        context.Context
+	cancel     context.CancelFunc
+	config     *config.Config
+	router     *router.Router
+	botService service.BotService
 }
 
 func New(
 	config *config.Config,
 	router *router.Router,
+	botService service.BotService,
 ) (*App, error) {
 	ctx, cancel := utils.NewCtxCancel(context.Background())
 	return &App{
-		ctx:    ctx,
-		cancel: cancel,
-		config: config,
-		router: router,
+		ctx:        ctx,
+		cancel:     cancel,
+		config:     config,
+		router:     router,
+		botService: botService,
 	}, nil
 }
 
@@ -61,6 +63,9 @@ func (a *App) Run() error {
 				a.router.Register(r)
 			},
 		}),
+		framework.WithTgBot(&tgbot.Config{
+			Token: cfg.TgBot.Token,
+		}),
 	}
 	b := framework.New(a.ctx, options...)
 
@@ -78,20 +83,14 @@ func (a *App) Run() error {
 	//	return nil
 	//})
 
-	b.AddServices(func(ctx context.Context) error {
-		bot, err := tgbot.New(cfg.TgBot.Token)
-		if err != nil {
-			return fmt.Errorf("tg bot init: %w", err)
-		}
-		lib.Bot = bot
-		lib.OpenAIAPIKey = cfg.OpenAI.APIKey
-		return nil
-	})
-
 	b.AfterInit(func(ctx context.Context) error {
+		lib.Bot = b.TgBot()
+		lib.RESTClient = b.RESTClient()
 		if isDev {
 			go func() {
-				lib.Bot.StartLongPolling(ctx, bot2.HandleUpdate)
+				lib.Bot.StartLongPolling(ctx,
+					a.botService.HandleUpdate,
+				)
 			}()
 		}
 		return nil

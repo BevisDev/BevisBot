@@ -3,15 +3,21 @@ package controller
 import (
 	"net/http"
 
-	"github.com/BevisDev/BevisBot/internal/bot"
+	"github.com/BevisDev/BevisBot/internal/service"
 	"github.com/gin-gonic/gin"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-type WebhookController struct{}
+type WebhookController struct {
+	botService service.BotService
+}
 
-func NewWebhookController() *WebhookController {
-	return &WebhookController{}
+func NewWebhookController(
+	botService service.BotService,
+) *WebhookController {
+	return &WebhookController{
+		botService: botService,
+	}
 }
 
 func (w *WebhookController) Webhook(c *gin.Context) {
@@ -21,5 +27,5 @@ func (w *WebhookController) Webhook(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"ok": true})
-	go bot.HandleUpdate(update)
+	go w.botService.HandleUpdate(update)
 }
