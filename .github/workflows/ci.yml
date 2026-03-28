@@ -1,0 +1,14 @@
+name: CI application
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    uses: BevisDev/.github/workflows/build.yml@main
+    with:
+      lang: go
+      version: 1.25.5
+      working_dir: "./app"
+      app_name: bevisdev
+    secrets: inherit
