@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: BevisDev/.github/workflows/build.yml@main
+    uses: BevisDev/cicd/.github/workflows/build.yml@main
     with:
       lang: go
       version: 1.25.5
