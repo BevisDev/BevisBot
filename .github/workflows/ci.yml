@@ -6,9 +6,4 @@ on:
 jobs:
   build:
     uses: BevisOrg/cicd/.github/workflows/test.yml@master
-    with:
-      lang: go
-      version: 1.25.5
-      working_dir: "./app"
-      app_name: bevisdev
-    secrets: inherit
+  
