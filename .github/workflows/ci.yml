@@ -6,4 +6,6 @@ on:
 jobs:
   build:
     uses: BevisOrg/cicd/.github/workflows/test.yml@master
+  deploy:
+    uses: BevisOrg/cicd/.github/workflows/test.yml@master
   
