@@ -1,0 +1,9 @@
+name: CD
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    uses: BevisOrg/cicd/.github/workflows/test.yml@master
+  
