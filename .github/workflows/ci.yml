@@ -5,4 +5,5 @@ on:
 
 jobs:
   build:
+    name: Test CI
     uses: BevisOrg/cicd/.github/workflows/test.yml@master  
